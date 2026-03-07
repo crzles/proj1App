@@ -1,2 +1,20 @@
 # proj1App
 project members: paz medrano, leslie cruz, rafa , lizeth
+
+#project idea: Notes website 
+
+User Page 
+username
+pfp
+area of study
+amount of notes
+what they rely on to study (references)
+messages (only if they follow back)
+
+Main Page 
+recommended notes depending on the area of study or interests
+create posts feature
+status page on notes or studying
+
+Notes tab (extra)
+to see the notes or create the notes right in the site.
