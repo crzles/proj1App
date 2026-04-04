@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block card content %}
+
+{% block card_title %}Sign Up{% endblock %}
+
+{% if messages %}
+    {% for msg in messages %}
+        <div class="alert alert-danger">{{ msg }}</div>
+    {% endfor %}
+{% endif %}
+
+<form method="POST" action="/signup/">
+    {% csrf_token %}
+    <div class="mb=3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="'form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+</form>
+
+<p class="'text-center mt-3">Already have an account? <a href="/login/">Log in</a></p>
+{% endblock %}

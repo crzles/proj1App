@@ -16,12 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from proj1App import views 
+from proj1App import views
 
-
+#a list, each path() is saying when the user visits this URL, call this funciton
+#path('URL', views.function, name='nickname') views is views.py
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", views.index, name="index"),
-    path("login", views.login, name="login"),
-
+    path('', views.index, name='index'),
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('home/', views.home, name='home'),
+    path('logout/', views.logout, name='logout'),
 ]

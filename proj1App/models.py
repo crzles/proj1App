@@ -9,8 +9,6 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
-    age = models.IntegerField(null=True, blank=True)
-    phone = models.TextField(blank = True)
 
     def __str__(self):
         return self.user.username

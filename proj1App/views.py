@@ -1,19 +1,54 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-
-from django.template import loader
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.models import User
+from django.contrib import messages
+from .models import Profile #importing profile class from models.py
 
 # Create your views here.
-#python functinos that take http requests and return http response like html documents
- 
+#python functions that take http requests and return http response like html documents
+
+#def function(object passing each URL visit)
 def index(request):
-    context ={}
-    template = loader.get_template("index.html");
-    return HttpResponse(template.render(context, request));
+    if request.user.is_authenticated: #did user alr logged in
+        return redirect('home') #if yes then redirect
+    return render(request, 'index.html') #render: sends back an HTML page
+
+def signup(request):
+    if request.method == 'POST': #POST: user submitted form, GET: user just visited page
+        email = request.POST['email'] #reads value inserted by user like cin
+        password = request.POST['password']
+
+        if User.objects.filter(username=email).exists(): #if it exists in database
+            messages.error(request, 'An account with that email already exists.') #storing error mssg, displayed in HTML via {% if messages %}
+            return redirect('signup')
+        
+        user = User.objects.create_user(username=email, email=email, password=password)
+        Profile.objects.create(user=user)
+        auth_login(request, user)
+        return redirect('home')
+    
+    return render(request, 'signup.html')
 
 def login(request):
-    email = request.GET["email"]
-    password = request.GET["password"]
-    context={"useremail": email}
-    template = loader.get_template("home.html")
-    return HttpResponse(template.render(context, request));
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            auth_login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid email or password.')
+            return redirect('login')
+        
+    return render(request, 'login.html')
+
+def home(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    return render(request, 'home.html')
+
+def logout(request):
+    auth_logout(request)
+    return redirect('login')
