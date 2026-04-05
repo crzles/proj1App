@@ -15,14 +15,14 @@ def index(request):
 
 def signup(request):
     if request.method == 'POST': #POST: user submitted form, GET: user just visited page
-        email = request.POST['email'] #reads value inserted by user like cin
+        username = request.POST['username'] #reads value inserted by user like cin
         password = request.POST['password']
 
-        if User.objects.filter(username=email).exists(): #if it exists in database
+        if User.objects.filter(username=username).exists(): #if it exists in database
             messages.error(request, 'An account with that email already exists.') #storing error mssg, displayed in HTML via {% if messages %}
             return redirect('signup')
         
-        user = User.objects.create_user(username=email, email=email, password=password)
+        user = User.objects.create_user(username=username, email=username, password=password)
         Profile.objects.create(user=user)
         auth_login(request, user)
         return redirect('home')
@@ -31,15 +31,15 @@ def signup(request):
 
 def login(request):
     if request.method == 'POST':
-        email = request.POST['email']
+        username = request.POST['username']
         password = request.POST['password']
 
-        user = authenticate(request, username=email, password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'Invalid email or password.')
+            messages.error(request, 'Invalid username or password.')
             return redirect('login')
         
     return render(request, 'login.html')

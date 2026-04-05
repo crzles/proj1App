@@ -1,9 +1,21 @@
 /*example:*/
 
 body {
-    background-color: #f8f9fa;
+    min-height: 100vh;
+    background-color: purple;
 }
 
 .card {
     border-radius: 12px;
+    padding: 60px 40px;
+}
+
+.btn-primary {
+    background-color: plum;
+    border-color: plum;
+}
+
+.btn-primary:hover {
+    background-color: purple;
+    border-color: purple;
 }

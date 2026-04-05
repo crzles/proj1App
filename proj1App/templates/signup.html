@@ -4,7 +4,7 @@
 
 {% block card_content %}
 
-{% block card_title %}Sign Up{% endblock %}
+<!-- {% block card_title %}Sign Up{% endblock %} -->
 
 {% if messages %}
     {% for msg in messages %}
@@ -15,9 +15,9 @@
 <form method="POST" action="/signup/">
     {% csrf_token %}
     <div class="mb=3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" name="email" required>
-        <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+        <label for="username" class="form-label">Username</label>
+        <input type="username" class="form-control" id="username" name="username" required>
+        <!-- <small class="form-text text-muted">We'll never share your email with anyone else.</small> -->
     </div>
     <div class="mb-3">
         <label for="password" class="'form-label">Password</label>
