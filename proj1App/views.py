@@ -22,7 +22,7 @@ def signup(request):
             messages.error(request, 'An account with that email already exists.') #storing error mssg, displayed in HTML via {% if messages %}
             return redirect('signup')
         
-        user = User.objects.create_user(username=username, email=username, password=password)
+        user = User.objects.create_user(username=username, email=username, password=password) #create_user hashes automatically w/o this info is exposed in db
         Profile.objects.create(user=user)
         auth_login(request, user)
         return redirect('home')
