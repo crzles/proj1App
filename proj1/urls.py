@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from proj1App import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 #a list, each path() is saying when the user visits this URL, call this funciton
 #path('URL', views.function, name='nickname') views is views.py
@@ -27,4 +29,7 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('home/', views.home, name='home'),
     path('logout/', views.logout, name='logout'),
+    path('posts/create/', views.create_post, name='create_post'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
