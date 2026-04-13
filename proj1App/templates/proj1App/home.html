@@ -1,0 +1,136 @@
+{% extends "proj1App/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<nav class="navbar navbar-dark bg-dark px-4 fixed-top">
+    <span class="navbar-brand">EduNotes</span>
+    <a href="/logout/" class="btn btn-outline-light btn-sm">Log Out</a>
+</nav>
+
+<!-- sidebarr -->
+<div id="sidebar">
+    <ul class="nav flex-column pt-3">
+        <li class="nav-item">
+            <a class="nav-link" href="/profile/">Profile</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="/home/">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/communities/">Communities</a>
+        </li>
+    </ul>
+</div>
+
+
+<div id="main-content">
+    <div class="feed-container">
+        <!-- posting button -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="text-purple mb-0">Feed</h5>
+            <button class="btn btn-purple" data-bs-toggle="modal" data-bs-target="#postModal">+ Post</button>
+        </div>
+
+        <!-- feed -->
+        {% for post in posts %}
+        <div class="post-card">
+            <div class="d-flex justify-content-between">
+                <span class="post-user">@{{ post.user.username }}</span>
+                <span class="post-meta">{{ post.created_at|timesince }} ago · <span class="post-category">{{ post.category }}</span></span>
+            </div>
+            {% if post.title %}
+                <div class="post-title">{{ post.title }}</div>
+            {% endif %}
+            {% if post.body %}
+                <div class="post-body">{{ post.body }}</div>
+            {% endif %}
+            {% if post.image %}
+                <img src="{{ post.image.url }}" class="post-img mt-2" alt="post image">
+            {% endif %}
+            {% if post.pdf %}
+                <a href="{{ post.pdf.url }}" class="post-link" target="_blank">📄 View PDF</a>
+            {% endif %}
+            {% if post.link %}
+                <a href="{{ post.link }}" class="post-link" target="_blank">🔗 {{ post.link }}</a>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div class="post-card text-center text-muted">
+            No posts yet. Follow some communities or be the first to post!
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- post pop-up form -->
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title" id="postModalLabel">Create a Post</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/posts/create/" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Category -->
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-select bg-secondary text-white border-0">
+                            <option value="">-- Select a topic --</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Biology">Biology</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Business">Business</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <label class="form-label">Title <span class="text-muted">(optional)</span></label>
+                        <input type="text" name="title" class="form-control bg-secondary text-white border-0" placeholder="Post title...">
+                    </div>
+
+                    <!-- Body -->
+                    <div class="mb-3">
+                        <label class="form-label">Text <span class="text-muted">(optional)</span></label>
+                        <textarea name="body" class="form-control bg-secondary text-white border-0" rows="4" placeholder="What's on your mind?"></textarea>
+                    </div>
+
+                    <!-- Image -->
+                    <div class="mb-3">
+                        <label class="form-label">Image <span class="text-muted">(optional)</span></label>
+                        <input type="file" name="image" accept="image/*" class="form-control bg-secondary text-white border-0">
+                    </div>
+
+                    <!-- PDF -->
+                    <div class="mb-3">
+                        <label class="form-label">PDF <span class="text-muted">(optional)</span></label>
+                        <input type="file" name="pdf" accept=".pdf" class="form-control bg-secondary text-white border-0">
+                    </div>
+
+                    <!-- Link -->
+                    <div class="mb-3">
+                        <label class="form-label">Link <span class="text-muted">(optional)</span></label>
+                        <input type="url" name="link" class="form-control bg-secondary text-white border-0" placeholder="https://...">
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-purple">Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -2,7 +2,7 @@
 
 body {
     min-height: 100vh;
-    background-color: purple;
+    background-color: white;
 }
 
 .card {
@@ -16,6 +16,118 @@ body {
 }
 
 .btn-primary:hover {
+    background-color: plum;
+    border-color: purple;
+}
+
+/* .navbar .nav-link {
+    color:white !important;
+}
+
+.navbar .nav-link:hover {
+    color: plum !important;
+} */
+
+#sidebar {
+    position: fixed;
+    top: 56px;
+    left: -160px; /* mostly hidden off screen */
+    width: 200px;
+    height: 100vh;
+    background-color: #212529;
+    padding-top: 10px;
+    transition: left 0.3s ease; /* smooth slide */
+    z-index: 999;
+}
+
+#sidebar:hover {
+    left: 0; /* fully slides in on hover */
+}
+
+#sidebar .nav-link {
+    color: white;
+}
+
+#sidebar .nav-link:hover {
+    color: plum;
+}
+
+#sidebar .nav-link.active {
+    color: plum;
+}
+
+#main-content {
+    margin-left: 40px; /* just the peeking tab width */
+    padding-top: 70px;
+}
+
+
+.feed-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 70px 16px 40px;
+}
+
+.post-card {
+    background-color: #1a1a2e;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    color: white;
+}
+
+.post-user {
+    font-weight: bold;
+    color: plum;
+}
+
+.post-meta {
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.post-category {
+    background-color: purple;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+
+.post-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.post-body {
+    margin-top: 6px;
+    font-size: 0.95rem;
+    color: #ddd;
+}
+
+.post-img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.post-link {
+    display: block;
+    margin-top: 8px;
+    color: plum;
+    font-size: 0.9rem;
+    word-break: break-all;
+}
+
+.btn-purple {
     background-color: purple;
     border-color: purple;
+    color: white;
+}
+
+.btn-purple:hover {
+    background-color: plum;
+    border-color: plum;
+    color: white;
 }
