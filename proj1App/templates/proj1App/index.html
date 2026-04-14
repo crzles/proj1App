@@ -1,9 +1,103 @@
-{% extends "<proj1App>base.html" %}
+{% extends "proj1App/base.html" %}
+{% load static %}
 
 {% block title %}EduNotes{% endblock %}
 
-{% block card_content %}
-  <!-- {% block card_title %}EduNotes{% endblock %} -->
-  <a href="/login/" class="btn btn-primary w-100 mb-2">Log In</a>
-  <a href="/signup/" class="btn btn-outline-primary w-100">Sign Up</a>
+{% block content %}
+<div class="en-login-page">
+
+  <!-- Left decorative panel -->
+  <div class="en-panel-left">
+    <a href="/" class="en-brand">
+      <div class="en-brand-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="3" y="2" width="11" height="14" rx="1.5" stroke="#fff" stroke-width="1.5"/>
+          <path d="M6 6h5M6 9h5M6 12h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M14 5h1a1 1 0 011 1v10a1 1 0 01-1 1H7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="en-brand-name">EduNotes</span>
+    </a>
+
+    <div>
+      <p class="en-subjects-label">Study materials for</p>
+      <div class="en-subjects">
+        <div class="en-subject-pill" style="--i:0">
+          <div class="en-subject-dot" style="background:plum;"></div>
+          <span class="en-subject-label-text">Mathematics &amp; Statistics</span>
+        </div>
+        <div class="en-subject-pill" style="--i:1">
+          <div class="en-subject-dot" style="background:#9b8fd4;"></div>
+          <span class="en-subject-label-text">Computer Science</span>
+        </div>
+        <div class="en-subject-pill" style="--i:2">
+          <div class="en-subject-dot" style="background:#b8a0e8;"></div>
+          <span class="en-subject-label-text">Natural Sciences</span>
+        </div>
+        <div class="en-subject-pill" style="--i:3">
+          <div class="en-subject-dot" style="background:#d4b0e0;"></div>
+          <span class="en-subject-label-text">History &amp; Humanities</span>
+        </div>
+        <div class="en-subject-pill" style="--i:4">
+          <div class="en-subject-dot" style="background:#c088cc;"></div>
+          <span class="en-subject-label-text">Economics &amp; Business</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="en-panel-tagline">
+      Better notes.<br>
+      Better <em>understanding.</em>
+    </p>
+  </div>
+
+  <!-- Right panel -->
+  <div class="en-panel-right">
+    <div class="en-form-wrap">
+
+      <!-- Mobile brand -->
+      <a href="/" class="en-brand en-brand-mobile">
+        <div class="en-brand-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="3" y="2" width="11" height="14" rx="1.5" stroke="#fff" stroke-width="1.5"/>
+            <path d="M6 6h5M6 9h5M6 12h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M14 5h1a1 1 0 011 1v10a1 1 0 01-1 1H7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="en-brand-name en-brand-name--dark">EduNotes</span>
+      </a>
+
+      <h1 class="en-form-heading">Your notes,<br>all in one place.</h1>
+      <p class="en-form-sub">Download study materials across dozens of subjects — free and organized.</p>
+
+      <div class="en-index-stats">
+        <div class="en-stat">
+          <span class="en-stat-number">500+</span>
+          <span class="en-stat-label">Notes</span>
+        </div>
+        <div class="en-stat-divider"></div>
+        <div class="en-stat">
+          <span class="en-stat-number">20+</span>
+          <span class="en-stat-label">Subjects</span>
+        </div>
+        <div class="en-stat-divider"></div>
+        <div class="en-stat">
+          <span class="en-stat-number">Free</span>
+          <span class="en-stat-label">Always</span>
+        </div>
+      </div>
+
+      <hr class="en-divider">
+
+      <a href="/login/" class="en-btn" style="display:block; text-align:center; text-decoration:none; margin-bottom:0.75rem;">
+        Log In
+      </a>
+      <a href="/signup/" class="en-btn-outline" style="display:block; text-align:center; text-decoration:none;">
+        Create an Account
+      </a>
+
+    </div>
+  </div>
+
+</div>
 {% endblock %}

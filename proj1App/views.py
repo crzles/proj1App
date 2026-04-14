@@ -14,7 +14,7 @@ from .models import Post
 def index(request):
     if request.user.is_authenticated: #did user alr logged in
         return redirect('home') #if yes then redirect
-    return render(request, 'index.html') #render: sends back an HTML page
+    return render(request, 'proj1App/index.html') #render: sends back an HTML page
 
 def signup(request):
     if request.method == 'POST': #POST: user submitted form, GET: user just visited page
@@ -30,7 +30,7 @@ def signup(request):
         auth_login(request, user)
         return redirect('home')
     
-    return render(request, 'signup.html')
+    return render(request, 'proj1App/signup.html')
 
 def login(request):
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def login(request):
             messages.error(request, 'Invalid username or password.')
             return redirect('login')
         
-    return render(request, 'login.html')
+    return render(request, 'proj1App/login.html')
 
 @login_required
 def home(request):
