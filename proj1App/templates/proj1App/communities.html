@@ -1,0 +1,212 @@
+{% extends "proj1App/base.html" %}
+
+{% block title %}Communities — EduNotes{% endblock %}
+
+{% block content %}
+
+<!--navbar-->
+<nav class="en-navbar">
+    <a href="/" class="en-brand">
+        <div class="en-brand-icon">
+            <svg width="20" height="20" viewbox="0 0 20 20" fill="none">
+                <rect x="3" y="2" width="11" height="14" rx="1.5" stroke="#fff" stroke-width="1.5"/>
+                <path d="M6 6h5M6 9h5M6 12h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M14 5h1a1 1 0 011 1v10a1 1 0 01-1 1H7" stroke="fff" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <span class="en-brand-name">EduNotes</span>
+    </a>
+    <a href="/logout/" class="en-navbar-logout">Log Out</a>
+</nav>
+
+<!--three-column format-->
+<div class="cm-layout">
+
+<!-- ── left sidebar ── -->
+    <aside class="cm-sidebar">
+
+        <div class="cm-profile-block">
+            <div class="cm-avatar">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="12" r="6" stroke="#f0eaf8" stroke-width="1.5"/>
+                    <path d="M4 28c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#f0eaf8" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <span class="cm-username">@{{ request.user.username }}</span>
+            <a href="/profile/" class="cm-profile-btn">Profile</a>
+        </div>
+
+        <div class="cm-sidebar-section">
+            <p class="cm-sidebar-heading">@{{ request.user.username }}'s communities</p>
+            <ul class="cm-community-list">
+
+                {% for community in user_communities %}
+                    <li>
+                        <a href="/communities/{{ community.slug }}/" class="cm-community-link {% if current_community.slug == community.slug %}active{% endif %}">
+
+                        #{{ community.name }}
+                        {% if community.subcommunities.exists %}
+                        <ul class="cm-sub-list">
+                            {% for sub in community.subcommunities.all %}
+                                <li><a href="/communities/{{ community.slug }}/{{ sub.slug }}/" class="cm-sub-link">#{{ sub.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                    </a>
+                </li>
+                {% empty %}
+
+                <li><span class="cm-empty-hint">No communities yet</span></li>
+                {% endfor %}
+
+            </ul>
+        </div>
+ 
+        <a href="/settings/" class="cm-settings-btn">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style="margin-right:6px;">
+                <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>Settings
+        </a>
+ 
+    </aside>
+
+    <!--feed-->
+    <main class="cm-main">
+ 
+        <div class="cm-main-header">
+            <h1 class="cm-main-title">#{{ current_community.name|default:"communities" }}</h1>
+        </div>
+ 
+        <!-- Popular Topics -->
+        <section class="cm-section">
+            <h2 class="cm-section-title">Popular Topics</h2>
+            <div class="cm-topic-grid">
+                {% for topic in popular_topics %}
+                    <a href="/communities/{{ current_community.slug }}/{{ topic.slug }}/" class="cm-topic-card">
+                        <span class="cm-topic-tag">#{{ topic.name }}</span>
+                        <span class="cm-topic-count">{{ topic.post_count }} posts</span>
+                    </a>
+                    {% empty %}
+
+                {% for i in "12345" %}
+                    <div class="cm-topic-card cm-topic-card--empty"></div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+        </section>
+ 
+        <!-- Discover -->
+        <section class="cm-section">
+            <h2 class="cm-section-title">Discover</h2>
+            <div class="cm-topic-grid">
+                {% for community in discover_communities %}
+                    <a href="/communities/{{ community.slug }}/" class="cm-topic-card cm-topic-card--discover">
+                        <span class="cm-topic-tag">#{{ community.name }}</span>
+                        <span class="cm-topic-count">{{ community.member_count }} members</span>
+                    </a>
+                    {% empty %}
+
+                {% for i in "12345" %}
+                    <div class="cm-topic-card cm-topic-card--empty"></div>
+                {% endfor %}
+                {% endfor %}
+            </div>
+        </section>
+ 
+        <!-- recent posts -->
+        <section class="cm-section">
+            <h2 class="cm-section-title">Recent Posts</h2>
+            <div class="cm-posts">
+                {% for post in recent_posts %}
+                    <div class="post-card">
+                        <div class="d-flex justify-content-between align-items-start">
+                        <span class="post-user">@{{ post.user.username }}</span>
+                        <span class="post-meta">{{ post.created_at|timesince }} ago &middot; <span class="post-category">{{ post.category }}</span></span>
+                        </div>
+
+                    {% if post.title %}<div class="post-title">{{ post.title }}</div>{% endif %}
+                    {% if post.body %}<div class="post-body">{{ post.body }}</div>{% endif %}
+                    {% if post.image %}<img src="{{ post.image.url }}" class="post-img mt-2" alt="post image">{% endif %}
+                    {% if post.pdf %}<a href="{{ post.pdf.url }}" class="post-link" target="_blank">📄 View PDF</a>{% endif %}
+                    {% if post.link %}<a href="{{ post.link }}" class="post-link" target="_blank">🔗 {{ post.link }}</a>{% endif %}
+                    </div>
+                    {% empty %}
+                    <div class="post-card text-center" style="color:#aaa;">
+                        No posts in this community yet. Be the first!
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+ 
+  <!-- ── DISCUSSION PODS ── -->
+    <aside class="cm-pods-panel">
+ 
+        <h2 class="cm-pods-title">#Discussion Pods</h2>
+        <p class="cm-pods-sub">Live voice rooms — tap a pod to join</p>
+ 
+        <div class="cm-pods-grid">
+            {% for pod in discussion_pods %}
+            <div class="cm-pod {% if pod.is_active %}cm-pod--active{% endif %}">
+                <div class="cm-pod-header">
+                    <span class="cm-pod-name">{{ pod.name }}</span>
+                    <span class="cm-pod-count">{{ pod.participant_count }}/8</span>
+                </div>
+
+                <div class="cm-pod-avatars">
+                    {% for participant in pod.participants.all|slice:":4" %}
+                        <div class="cm-pod-avatar" title="@{{ participant.username }}">
+                            {{ participant.username|slice:":1"|upper }}
+                        </div>
+                    {% endfor %}
+
+                    {% if pod.participant_count == 0 %}
+                        <span class="cm-pod-empty">Empty — start the conversation</span>
+                    {% endif %}
+                </div>
+
+                <button class="cm-pod-join-btn" onclick="joinPod('{{ pod.id|default:0 }}')">
+                    <svg width="13" height="13" viewBox="0 0 20 20" fill="none" style="margin-right:5px;">
+                        <path d="M10 2a4 4 0 014 4v4a4 4 0 01-8 0V6a4 4 0 014-4z" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M4 10a6 6 0 0012 0M10 16v3M7 19h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    Join Pod
+                </button>
+            </div>
+            {% empty %}
+
+            <!-- Default empty pods -->
+            {% for label in "ABC" %}
+            <div class="cm-pod">
+                <div class="cm-pod-header">
+                    <span class="cm-pod-name">Pod {{ label }}</span>
+                    <span class="cm-pod-count">0/8</span>
+                </div>
+                <div class="cm-pod-avatars">
+                    <span class="cm-pod-empty">Empty — start the conversation</span>
+                </div>
+                <button class="cm-pod-join-btn" onclick="joinPod('{{ label }}')">
+                    <svg width="13" height="13" viewBox="0 0 20 20" fill="none" style="margin-right:5px;">
+                        <path d="M10 2a4 4 0 014 4v4a4 4 0 01-8 0V6a4 4 0 014-4z" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M4 10a6 6 0 0012 0M10 16v3M7 19h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    Join Pod
+                </button>
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+ 
+        <!-- Mic status bar -->
+        <div class="cm-mic-bar" id="micBar" style="display:none;">
+            <div class="cm-mic-indicator" id="micIndicator"></div>
+            <span class="cm-mic-label" id="micLabel">Connected to Pod A</span>
+            <button class="cm-mic-leave" onclick="leavePod()">Leave</button>
+        </div>
+ 
+    </aside>
+</div>
+{% endblock %}

@@ -1,61 +1,31 @@
-{% extends "proj1App/base.html" %}
-{% load static %}
+{% extends "proj1App/auth_base.html" %}
 
 {% block title %}Log In — EduNotes{% endblock %}
 
-{% block content %}
-<div class="en-login-page en-login-page--form-only">
+{% block auth_heading %}Welcome back{% endblock %}
 
-  <!-- Form panel -->
-  <div class="en-panel-right">
-    <div class="en-form-wrap">
+{% block auth_subheading %}Sign in to access your study materials{% endblock %}
 
-      <a href="/" class="en-brand" style="margin-bottom:2rem; display:inline-flex;">
-        <div class="en-brand-icon">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <rect x="3" y="2" width="11" height="14" rx="1.5" stroke="#fff" stroke-width="1.5"/>
-            <path d="M6 6h5M6 9h5M6 12h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M14 5h1a1 1 0 011 1v10a1 1 0 01-1 1H7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <span class="en-brand-name en-brand-name--dark">EduNotes</span>
-      </a>
+{% block auth_form %}
+<form method="POST" action="/login/">
+  {% csrf_token %}
 
-      <h1 class="en-form-heading" style="margin-top:0.5rem;">Welcome back</h1>
-      <p class="en-form-sub">Sign in to access your study materials</p>
-
-      {% if messages %}
-        {% for msg in messages %}
-          <div class="en-alert">{{ msg }}</div>
-        {% endfor %}
-      {% endif %}
-
-      <form method="POST" action="/login/">
-        {% csrf_token %}
-
-        <div class="en-field">
-          <label class="en-label" for="username">Username</label>
-          <input class="en-input" type="text" id="username" name="username"
-                 placeholder="Enter your username" required autocomplete="username">
-        </div>
-
-        <div class="en-field">
-          <label class="en-label" for="password">Password</label>
-          <input class="en-input" type="password" id="password" name="password"
-                 placeholder="Enter your password" required autocomplete="current-password">
-        </div>
-
-        <button type="submit" class="en-btn">Log In</button>
-      </form>
-
-      <hr class="en-divider">
-
-      <p class="en-signup-link">
-        Don't have an account? <a href="/signup/">Sign up for free</a>
-      </p>
-
-    </div>
+  <div class="en-field">
+    <label class="en-label" for="username">Username</label>
+    <input class="en-input" type="text" id="username" name="username"
+      placeholder="Enter your username" required autocomplete="username">
   </div>
 
-</div>
+  <div class="en-field">
+    <label class="en-label" for="password">Password</label>
+    <input class="en-input" type="password" id="password" name="password"
+      placeholder="Enter your password" required autocomplete="current-password">
+  </div>
+
+  <button type="submit" class="en-btn">Log In</button>
+</form>
+{% endblock %}
+
+{% block auth_footer %}
+  Don't have an account? <a href="/signup/">Sign up for free</a>
 {% endblock %}
