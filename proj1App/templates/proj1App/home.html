@@ -1,6 +1,9 @@
 {% extends "proj1App/base.html" %}
+{% load static %}
 
 {% block title %}Home — EduNotes{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'proj1App/css/home.css' %}">{% endblock %}
 
 {% block content %}
 
