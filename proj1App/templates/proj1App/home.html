@@ -1,0 +1,129 @@
+<!-- Template of the home page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notes App</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f0f0; }
+
+        /* Top navbar */
+        .navbar {
+            background-color: #b39ddb;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+        }
+        .navbar a.active { background-color: #9e86c8; }
+        .navbar a.create-btn { background-color: #7c5cbf; }
+
+        /* Layout */
+        .container { display: flex; min-height: calc(100vh - 50px); }
+
+        /* Left sidebar */
+        .sidebar {
+            width: 165px;
+            background-color: #b39ddb;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px 0;
+        }
+        .sidebar-top a, .sidebar-bottom a {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            color: white;
+            text-decoration: none;
+            border: 1px solid #c5b3e6;
+            margin: 4px 8px;
+            border-radius: 4px;
+        }
+        .sidebar-top a:hover, .sidebar-bottom a:hover {
+            background-color: #9e86c8;
+        }
+
+        /* Main content */
+        .main { flex: 1; padding: 30px; display: flex; gap: 30px; }
+
+        /* Left column - Your Notes */
+        .your-notes { flex: 1; }
+        .your-notes h2 { margin-bottom: 15px; font-size: 1.4rem; }
+        .notes-box {
+            background: #d9d9d9;
+            border-radius: 12px;
+            min-height: 280px;
+            padding: 15px;
+        }
+
+        /* Right column - Reminders & Liked */
+        .right-column { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .right-column h2 { margin-bottom: 10px; font-size: 1.4rem; }
+        .reminders-box, .liked-box {
+            background: #d9d9d9;
+            border-radius: 12px;
+            min-height: 120px;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#" class="active">Home</a>
+        <a href="#">About</a>
+        <a href="#" class="create-btn">Create</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-top">
+                <a href="#">Profile</a>
+                <a href="#">Community Page</a>
+                <a href="#">Links / References</a>
+            </div>
+            <div class="sidebar-bottom">
+                <a href="#">Settings</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
+
+            <!-- Your Notes -->
+            <div class="your-notes">
+                <h2>Your Notes</h2>
+                <div class="notes-box">
+                    <!-- Notes will loop here later -->
+                </div>
+            </div>
+
+            <!-- Reminders and the Liked Notes -->
+            <div class="right-column">
+                <div>
+                    <h2>Reminders!</h2>
+                    <div class="reminders-box"></div>
+                </div>
+                <div>
+                    <h2>Liked Notes</h2>
+                    <div class="liked-box"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
