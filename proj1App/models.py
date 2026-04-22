@@ -7,3 +7,4 @@ class Post(models.Model):  #creating database table
     topic = models.CharField(max_length=100)
     file = models.FileField(upload_to='uploads/', null=True, blank=True) #file uploads
     created_at = models.DateTimeField(auto_now_add=True) #storing time and date of post
+
