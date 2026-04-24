@@ -150,3 +150,62 @@ body {
     font-size: 0.9rem;
     word-break: break-all;
 }
+
+/* search bar */
+.en-search-form {
+    display: flex;
+    align-items: stretch;
+    flex: 2;
+    max-width: 400px;
+    margin: 0 1.5rem;
+}
+
+.en-search-input {
+    width: 100%;
+    height: 34px;
+    padding: 0px 14px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(221, 160, 221, 0.2);
+    border-right: none;
+    border-radius: 7px 0 0 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: #f0eaf8;
+    outline: none;
+    transition: border-color 0.18s, background-color 0.18s;
+    box-sizing: border-box;
+}
+
+.en-search-input::placeholder {
+    color: rgba(240, 234, 248, 0.35);
+}
+
+.en-search-input:focus {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: plum;
+}
+
+.en-search-btn {
+    height: 34px;
+    padding: 0px 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(221, 160, 221, 0.2);
+    border-left: none;
+    border-radius: 0 7px 7px 0;
+    color: rgba(240, 234, 248, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.18s, color 0.18s;
+    box-sizing: border-box;
+}
+
+.en-search-btn:hover {
+    background-color: rgba(221, 160, 221, 0.15);
+    color: plum;
+}
+
+/* Hide search bar on small screens */
+@media (max-width: 600px) {
+    .en-search-form { display: none; }
+}

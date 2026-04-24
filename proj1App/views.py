@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.db import models
 from .models import Profile, Post, Community, DiscussionPod
  
  
@@ -49,6 +50,18 @@ def login(request):
 def home(request):
     posts = Post.objects.all().select_related('user')
     return render(request, 'proj1App/home.html', {'posts': posts})
+
+@login_required
+def search(request):
+    query = request.GET.get('q', '')
+    results = []
+    if query:
+        results = Post.objects.filter(
+            models.Q(title__icontains=query) |
+            models.Q(body__icontains=query) |
+            models.Q(category__icontains=query)
+        ).select_related('user')
+    return render(request, 'proj1App/search.html', {'results': results, 'query': query})
 
 @login_required
 def create_post(request):
