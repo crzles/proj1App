@@ -16,7 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from proj1App import views
+from django.conf import settings
+from django.conf.urls.static import static
 
+#a list, each path() is saying when the user visits this URL, call this funciton
+#path('URL', views.function, name='nickname') views is views.py
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('home/', views.home, name='home'),
+    path('logout/', views.logout, name='logout'),
+    path('posts/create/', views.create_post, name='create_post'),
+    path('communities/', views.communities, name='communities'),
+    path('communities/<slug:community_slug>/', views.communities, name='community_detail'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

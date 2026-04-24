@@ -1,0 +1,177 @@
+{% extends "proj1App/base.html" %}
+{% load static %}
+
+{% block title %}Home — EduNotes{% endblock %}
+
+{% block extra_css %}<link rel="stylesheet" href="{% static 'proj1App/css/home.css' %}">{% endblock %}
+
+{% block content %}
+
+<!-- Navbar -->
+<nav class="en-navbar">
+    <a href="/" class="en-brand">
+
+        <div class="en-brand-icon">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <rect x="3" y="2" width="11" height="14" rx="1.5" stroke="#fff" stroke-width="1.5"/>
+                <path d="M6 6h5M6 9h5M6 12h3" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M14 5h1a1 1 0 011 1v10a1 1 0 01-1 1H7" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+
+        <span class="en-brand-name">EduNotes</span>
+    </a>
+
+    <a href="/logout/" class="en-navbar-logout">Log Out</a>
+</nav>
+
+<!-- sidebarr -->
+<div id="sidebar">
+    <ul class="nav flex-column pt-3">
+
+        <li class="nav-item">
+            <a class="nav-link" href="/profile/">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none" style="margin-right:8px; opacity:0.7;">
+                    <circle cx="10" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>Profile
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link active" href="/home/">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none" style="margin-right:8px; opacity:0.7;">
+                    <path d="M3 9.5L10 3l7 6.5V17a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                </svg>Home
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="/communities/">
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="none" style="margin-right:8px; opacity:0.7;">
+                    <circle cx="7" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="14" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M1 17c0-2.761 2.686-5 6-5M8 17c0-2.761 2.686-5 6-5s6 2.239 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>Communities
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!--main-->
+<div id="main-content">
+    <div class="feed-container">
+    <!--button-->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="en-feed-title">Feed</h5>
+            <button class="btn btn-purple" data-bs-toggle="modal" data-bs-target="#postModal">+ Post</button>
+        </div>
+
+        <!-- feed -->
+        {% for post in posts %}
+        <div class="post-card">
+            <div class="d-flex justify-content-between align-items-start">
+                <span class="post-user">@{{ post.user.username }}</span>
+                <span class="post-meta">{{ post.created_at|timesince }} ago &middot; <span class="post-category">{{ post.category }}</span></span>
+            </div>
+            {% if post.title %}
+                <div class="post-title">{{ post.title }}</div>
+            {% endif %}
+
+            {% if post.body %}
+                <div class="post-body">{{ post.body }}</div>
+            {% endif %}
+
+            {% if post.image %}
+                <img src="{{ post.image.url }}" class="post-img mt-2" alt="post image">
+            {% endif %}
+
+            {% if post.pdf %}
+                <a href="{{ post.pdf.url }}" class="post-link" target="_blank">📄 View PDF</a>
+            {% endif %}
+
+            {% if post.link %}
+                <a href="{{ post.link }}" class="post-link" target="_blank">🔗 {{ post.link }}</a>
+            {% endif %}
+        </div>
+        {% empty %}
+
+            <div class="post-card text-center" style="color:#aaa;">
+                No posts yet. Follow some communities or be the first to post!
+            </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+<!-- post pop-up form -->
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content en-modal">
+
+            <div class="modal-header en-modal-header">
+                <h5 class="modal-title en-modal-title" id="postModalLabel">Create a Post</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body en-modal-body">
+                <form method="POST" action="/posts/create/" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+ 
+                    <div class="en-modal-field">
+                        <label class="en-modal-label">Category</label>
+                        <select name="category" class="en-modal-input">
+                            <option value="">— Select a topic —</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Biology">Biology</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Business">Business</option>
+                            <option value="General">General</option>
+                        </select>
+                    </div>
+
+                    <div class="en-modal-field">
+                        <label class="en-modal-label">Title <span class="en-modal-optional">(optional)</span></label>
+                        <input type="text" name="title" class="en-modal-input" placeholder="Post title...">
+                    </div>
+
+                    <div class="en-modal-field">
+                        <label class="en-modal-label">Text <span class="en-modal-optional">(optional)</span></label>
+                        <textarea name="body" class="en-modal-input" rows="4" placeholder="What's on your mind?"></textarea>
+                    </div>
+
+                    <div class="en-modal-field">
+                        <label class="en-modal-label">Image <span class="en-modal-optional">(optional)</span></label>
+                        <input type="file" name="image" accept="image/*" class="en-modal-input">
+                    </div>
+
+                    <div class="en-modal-field">
+                        <label class="en-modal-label">PDF <span class="en-modal-optional">(optional)</span></label>
+                        <input type="file" name="pdf" accept=".pdf" class="en-modal-input">
+                    </div>
+
+                    <div class="en-modal-field">
+                        <label class="en-modal-label">Link <span class="en-modal-optional">(optional)</span></label>
+                        <input type="url" name="link" class="en-modal-input" placeholder="https://...">
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <button type="button" class="en-modal-cancel" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-purple">Post</button>
+                    </div>
+                    
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
