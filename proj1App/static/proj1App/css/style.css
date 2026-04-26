@@ -1,73 +1,124 @@
-/*example:*/
-
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+ 
+/* ============================================================
+   BASE
+   ============================================================ */
+ 
 body {
     min-height: 100vh;
     background-color: white;
+    font-family: 'DM Sans', sans-serif;
 }
-
+ 
 .card {
     border-radius: 12px;
     padding: 60px 40px;
 }
-
+ 
+/* ============================================================
+   BUTTONS (shared)
+   ============================================================ */
+ 
 .btn-primary {
     background-color: plum;
     border-color: plum;
 }
-
+ 
 .btn-primary:hover {
     background-color: plum;
     border-color: purple;
 }
-
-/* .navbar .nav-link {
-    color:white !important;
-}
-
-.navbar .nav-link:hover {
-    color: plum !important;
-} */
-
-#sidebar {
-    position: fixed;
-    top: 56px;
-    left: -160px; /* mostly hidden off screen */
-    width: 200px;
-    height: 100vh;
-    background-color: #212529;
-    padding-top: 10px;
-    transition: left 0.3s ease; /* smooth slide */
-    z-index: 999;
-}
-
-#sidebar:hover {
-    left: 0; /* fully slides in on hover */
-}
-
-#sidebar .nav-link {
+ 
+.btn-purple {
+    background-color: purple;
+    border-color: purple;
     color: white;
 }
-
-#sidebar .nav-link:hover {
+ 
+.btn-purple:hover {
+    background-color: plum;
+    border-color: plum;
+    color: white;
+}
+ 
+/* ============================================================
+   BRAND (shared)
+   ============================================================ */
+ 
+.en-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+ 
+.en-brand-icon {
+    width: 36px;
+    height: 36px;
+    background-color: purple;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+ 
+.en-brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #f0eaf8;
+    letter-spacing: 0.01em;
+}
+ 
+.en-brand-name--dark {
+    color: #1a1a2e;
+}
+ 
+/* ============================================================
+   NAVBAR (shared — home + communities)
+   ============================================================ */
+ 
+.en-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background-color: #1a1a2e;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    z-index: 1001;
+    border-bottom: 1px solid rgba(221, 160, 221, 0.12);
+}
+ 
+.en-navbar .en-brand-name {
+    font-size: 18px;
+    color: #f0eaf8;
+}
+ 
+.en-navbar-logout {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(240, 234, 248, 0.6);
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 1px solid rgba(221, 160, 221, 0.2);
+    border-radius: 6px;
+    transition: color 0.18s, border-color 0.18s;
+}
+ 
+.en-navbar-logout:hover {
     color: plum;
+    border-color: plum;
 }
-
-#sidebar .nav-link.active {
-    color: plum;
-}
-
-#main-content {
-    margin-left: 40px; /* just the peeking tab width */
-    padding-top: 70px;
-}
-
-
-.feed-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 70px 16px 40px;
-}
-
+ 
+/* ============================================================
+   POST CARDS (shared — home + communities)
+   ============================================================ */
+ 
 .post-card {
     background-color: #1a1a2e;
     border: 1px solid #333;
@@ -76,17 +127,10 @@ body {
     margin-bottom: 16px;
     color: white;
 }
-
-.post-user {
-    font-weight: bold;
-    color: plum;
-}
-
-.post-meta {
-    font-size: 0.8rem;
-    color: #aaa;
-}
-
+ 
+.post-user   { font-weight: bold; color: plum; }
+.post-meta   { font-size: 0.8rem; color: #aaa; }
+ 
 .post-category {
     background-color: purple;
     color: white;
@@ -94,24 +138,11 @@ body {
     border-radius: 20px;
     font-size: 0.75rem;
 }
-
-.post-title {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-top: 8px;
-}
-
-.post-body {
-    margin-top: 6px;
-    font-size: 0.95rem;
-    color: #ddd;
-}
-
-.post-img {
-    width: 100%;
-    border-radius: 8px;
-}
-
+ 
+.post-title  { font-size: 1.1rem; font-weight: bold; margin-top: 8px; }
+.post-body   { margin-top: 6px; font-size: 0.95rem; color: #ddd; }
+.post-img    { width: 100%; border-radius: 8px; }
+ 
 .post-link {
     display: block;
     margin-top: 8px;
@@ -120,14 +151,61 @@ body {
     word-break: break-all;
 }
 
-.btn-purple {
-    background-color: purple;
-    border-color: purple;
-    color: white;
+/* search bar */
+.en-search-form {
+    display: flex;
+    align-items: stretch;
+    flex: 2;
+    max-width: 400px;
+    margin: 0 1.5rem;
 }
 
-.btn-purple:hover {
-    background-color: plum;
+.en-search-input {
+    width: 100%;
+    height: 34px;
+    padding: 0px 14px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(221, 160, 221, 0.2);
+    border-right: none;
+    border-radius: 7px 0 0 7px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: #f0eaf8;
+    outline: none;
+    transition: border-color 0.18s, background-color 0.18s;
+    box-sizing: border-box;
+}
+
+.en-search-input::placeholder {
+    color: rgba(240, 234, 248, 0.35);
+}
+
+.en-search-input:focus {
+    background-color: rgba(255, 255, 255, 0.12);
     border-color: plum;
-    color: white;
+}
+
+.en-search-btn {
+    height: 34px;
+    padding: 0px 12px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(221, 160, 221, 0.2);
+    border-left: none;
+    border-radius: 0 7px 7px 0;
+    color: rgba(240, 234, 248, 0.6);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.18s, color 0.18s;
+    box-sizing: border-box;
+}
+
+.en-search-btn:hover {
+    background-color: rgba(221, 160, 221, 0.15);
+    color: plum;
+}
+
+/* Hide search bar on small screens */
+@media (max-width: 600px) {
+    .en-search-form { display: none; }
 }
