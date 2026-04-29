@@ -1,0 +1,31 @@
+{% extends "proj1App/auth_base.html" %}
+
+{% block title %}Sign Up — EduNotes{% endblock %}
+
+{% block auth_heading %}Create an account{% endblock %}
+
+{% block auth_subheading %}Join EduNotes and start downloading study materials{% endblock %}
+
+{% block auth_form %}
+<form method="POST" action="/signup/">
+  {% csrf_token %}
+
+  <div class="en-field">
+    <label class="en-label" for="username">Username</label>
+    <input class="en-input" type="text" id="username" name="username"
+      placeholder="Choose a username" required autocomplete="username">
+  </div>
+
+  <div class="en-field">
+    <label class="en-label" for="password">Password</label>
+    <input class="en-input" type="password" id="password" name="password"
+      placeholder="Create a password" required autocomplete="new-password">
+  </div>
+
+  <button type="submit" class="en-btn">Sign Up</button>
+</form>
+{% endblock %}
+
+{% block auth_footer %}
+  Already have an account? <a href="/login/">Log in</a>
+{% endblock %}

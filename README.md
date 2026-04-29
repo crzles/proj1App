@@ -18,3 +18,5 @@ status page on notes or studying
 
 Notes tab (extra)
 to see the notes or create the notes right in the site.
+
+Figma: https://www.figma.com/design/L4d1TV9MJaNEBcgdaYt8oD/form?node-id=41-2&t=EFZgZ6m1I9RNpUZS-1

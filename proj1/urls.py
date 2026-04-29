@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from proj1App import views
+from django.conf import settings
+from django.conf.urls.static import static
 
+#a list, each path() is saying when the user visits this URL, call this funciton
+#path('URL', views.function, name='nickname') views is views.py
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('proj1App.urls')), # connects to the proj1App url
 ]
