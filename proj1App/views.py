@@ -1,13 +1,12 @@
+import re
 from django.shortcuts import render
-
-# Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db import models
-from .models import Profile, Post, Community, DiscussionPod
+from .models import Profile, Post, Community, CommunityMembership, DiscussionPod
  
  
 def index(request):
@@ -75,20 +74,35 @@ def create_post(request):
         link     = request.POST.get('link', '')
         image    = request.FILES.get('image')
         pdf      = request.FILES.get('pdf')
+        next_url = request.POST.get('next', '/home/')
  
         if not any([title, body, image, pdf, link]):
-            posts = Post.objects.all().select_related('user')
-            return render(request, 'proj1App/home.html', {
-                'posts': posts,
-                'error': 'Post must have at least some content.'
-            })
+            return redirect(next_url)
+        
+        hashtags = re.findall(r'#(\w+)', body.lower())
+        community = None
+        for tag in hashtags:
+            match = Community.objects.filter(slug=tag).first()
+            if match:
+                community = match
+                break
  
         Post.objects.create(
             user=request.user, title=title, body=body,
             category=category, link=link, image=image, pdf=pdf,
+            community=community
         )
-        return redirect('/home/')
+        return redirect(next_url)
  
+    return redirect('/home/')
+
+@login_required
+def delete_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id, user=request.user)
+    next_url = request.POST.get('next', '/home/')
+    if request.method == 'POST':
+        post.delete()
+        return redirect(next_url)
     return redirect('/home/')
 
 
@@ -105,16 +119,9 @@ def communities(request, community_slug=None):
     else:
         current_community = None
  
-    # Popular topics = top 5 sub-communities by post count
     popular_topics = (
-        Community.objects.filter(parent=current_community)
-        .annotate_post_count()  # see note below — replace with the line below if you haven't added annotations
-        if current_community else Community.objects.none()
-    )
-    # Simpler version without annotation (use this one):
-    popular_topics = (
-        Community.objects.filter(parent=current_community)
-        if current_community else Community.objects.none()
+    Community.objects.filter(parent=current_community)
+    if current_community else Community.objects.none()
     )
  
     # Discover = communities the user hasn't joined yet
@@ -146,6 +153,18 @@ def communities(request, community_slug=None):
         'recent_posts':         recent_posts,
         'discussion_pods':      discussion_pods,
     })
+
+@login_required
+def join_community(request, community_slug):
+    community = get_object_or_404(Community, slug=community_slug)
+    CommunityMembership.objects.get_or_create(user=request.user, community=community)
+    return redirect(request.POST.get('next', '/communities/'))
+
+@login_required
+def leave_community(request, community_slug):
+    community = get_object_or_404(Community, slug=community_slug)
+    CommunityMembership.objects.filter(user=request.user, community=community).delete()
+    return redirect(request.POST.get('next', '/communities/'))
 
 def logout(request):
     auth_logout(request)

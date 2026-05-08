@@ -34,3 +34,12 @@ function leavePod() {
     if (bar)       bar.style.display = 'none';
     if (indicator) indicator.classList.remove('active');
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.post-body').forEach(function (el) {
+        el.innerHTML = el.innerHTML.replace(
+            /#(w+)/g,
+            '<a class="post-hashtag" href="/communitities/$1/">#$1</a>'
+        );
+    });
+});
