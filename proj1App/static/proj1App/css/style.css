@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
  
-/* ============================================================
-   BASE
-   ============================================================ */
+/* BASE */
  
 body {
     min-height: 100vh;
@@ -15,9 +13,7 @@ body {
     padding: 60px 40px;
 }
  
-/* ============================================================
-   BUTTONS (shared)
-   ============================================================ */
+/*  BUTTONS (shared) */
  
 .btn-primary {
     background-color: plum;
@@ -41,9 +37,7 @@ body {
     color: white;
 }
  
-/* ============================================================
-   BRAND (shared)
-   ============================================================ */
+/*  BRAND (shared) */
  
 .en-brand {
     display: inline-flex;
@@ -74,9 +68,7 @@ body {
     color: #1a1a2e;
 }
  
-/* ============================================================
-   NAVBAR (shared — home + communities)
-   ============================================================ */
+/*  NAVBAR (shared — home + communities) */
  
 .en-navbar {
     position: fixed;
@@ -115,9 +107,7 @@ body {
     border-color: plum;
 }
  
-/* ============================================================
-   POST CARDS (shared — home + communities)
-   ============================================================ */
+/* POST CARDS (shared — home + communities) */
  
 .post-card {
     background-color: #1a1a2e;
@@ -149,6 +139,35 @@ body {
     color: plum;
     font-size: 0.9rem;
     word-break: break-all;
+}
+
+.post-hashtag {
+    color: plum;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.post-hashtag:hover {
+    text-decoration: underline;
+}
+
+.post-delete-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 100, 100, 0.25);
+    border-radius: 5px;
+    color: rgba(255, 100, 100, 0.5);
+    padding: 3px 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.18s, color 0.18s, border-color 0.18s;
+}
+
+.post-delete-btn:hover {
+    background-color: rgba(255, 100, 100, 0.1);
+    color: rgb(255, 100, 100);
+    border-color: rgb(255, 100, 100);
 }
 
 /* search bar */
