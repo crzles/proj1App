@@ -196,9 +196,15 @@ def profile(request):
 
 @login_required
 def settings(request): 
-    profile = get_object_or_404(Profile, user=request)
+    profile = get_object_or_404(Profile, user=request.user)
 
     if request.method == 'POST':
+
+        # handling for the deleting account 
+        if request.POST.get('delete_account') == 'true': 
+            request.user.delete()
+            return redirect('index') 
+        
         # this handles the password change in settings
         new_password = request.POST.get('new_password', '')
         if new_password: 
@@ -217,9 +223,5 @@ def settings(request):
                 request.user.save()
                 messages.success(request, 'Username updated.')
 
-        # handling for the deleting account 
-        if request.POST.get('delete_account') == 'true': 
-            request.user.delete()
-            return redirect('index')
 
     return render(request, 'proj1App/settings.html', {'profile': profile})
