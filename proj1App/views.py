@@ -169,3 +169,27 @@ def leave_community(request, community_slug):
 def logout(request):
     auth_logout(request)
     return redirect('login')
+
+@login_required
+def profile(request):
+
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        bio = request.POST.get('bio')
+
+        if bio is not None:
+            profile.bio = bio
+
+        if 'profile_picture' in request.FILES:
+            profile.profile_picture = request.FILES['profile_picture']
+
+        profile.save()
+        return redirect('profile')
+
+    recent_notes = Post.objects.filter(user=request.user)[:6]
+
+    return render(request, 'proj1App/profile.html', {
+        'profile': profile,
+        'recent_notes': recent_notes,
+    })
