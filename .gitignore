@@ -1,0 +1,65 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Virtual Environments
+# =========================
+.venv/
+env/
+venv/
+
+# =========================
+# Django
+# =========================
+*.log
+*.pot
+*.pyc
+db.sqlite3
+db.sqlite3-journal
+
+# Django stuff:
+media/
+staticfiles/
+
+# =========================
+# Environment variables
+# =========================
+.env
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+
+# =========================
+# MacOS
+# =========================
+.DS_Store
+
+# =========================
+# Migrations (optional)
+# =========================
+# If your professor/team wants migrations tracked, REMOVE this
+# */migrations/
+# !*/migrations/__init__.py
+
+# =========================
+# Testing / coverage
+# =========================
+.coverage
+htmlcov/
+.pytest_cache/
+
+# =========================
+# Node (if you ever add frontend)
+# =========================
+node_modules/
+
+# =========================
+# Misc
+# =========================
+*.swp
