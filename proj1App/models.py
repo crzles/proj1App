@@ -15,21 +15,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-
-#from django.db import models
-#from django.contrib.auth.models import User
-
-# Create your models here; a table in your database
-
-# profile model - for now they will be in comments
-# from django.contrib.auth.models import User 
-
-#class Profile(models.Model):
-#    user = models.OneToOneField(User, on_delete=models.CASCADE)
-#    bio = models.TextField(blank=True)
-
-#    def __str__(self):
-#        return self.user.username
     
 
 class Post(models.Model):
@@ -109,7 +94,7 @@ class CommunityMembership(models.Model):
 
 class DiscussionPod(models.Model):
     community    = models.ForeignKey(Community, on_delete=models.CASCADE, related_name='pods')
-    name         = models.CharField(max_length=60)          # e.g. "Pod A"
+    name         = models.CharField(max_length=60)       
     participants = models.ManyToManyField(User, blank=True, related_name='active_pods')
     is_active    = models.BooleanField(default=False)
 
