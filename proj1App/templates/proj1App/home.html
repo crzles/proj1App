@@ -71,10 +71,25 @@
 
             <div><b>{{ post.title }}</b></div>
             <div>{{ post.body }}</div>
+
+            <!--delete button-->
+            {% if post.user == request.user %}
+            <form method = "POST" action="/posts/delete/{{ post.id }}/" style="margin-top:10px;">
+                {%csrf_token%}
+
+                <input type = "hidden" name="next" value ="{{ request.path }}">
+
+                <button type = "submit" 
+                onclick="return confirm('Delete this post?')"
+                style=" background:red; color:white; border:none; padding: 5px 10px; border-radius:5px;">
+                Delete
+            </button>
+         </form>
+          {% endif %}
         </div>
-        {% empty %}
-        <div class="post-card">No posts yet.</div>
-        {% endfor %}
+         {% empty %}
+          <div class="post-card">No posts yet.</div>
+           {% endfor %}
 
     </div>
 </div>
