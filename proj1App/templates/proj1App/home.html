@@ -108,7 +108,7 @@
                             <option value="Chemistry">Chemistry</option>
                             <option value="Business">Business</option>
                             <option value="General">General</option>
-                            <option value="__custom__">+ Add new topic</option> <!--new option for custom category--!
+                            <option value="__custom__">+ Add new topic</option> <!--new option for custom category-->
                         </select>
 
                         <input 
@@ -157,7 +157,7 @@
 </div>
 
 <!-- JS for custom topic category -->
- <!--checks if user selects "Add new topic" and shows input field, otherwise hides it--!>
+ <!--checks if user selects "Add new topic" and shows input field, otherwise hides it-->
 <script>
 function toggleCustomCategory() {
     const select = document.getElementById("categorySelect");
@@ -165,10 +165,14 @@ function toggleCustomCategory() {
 
     if (select.value === "__custom__") {
         input.style.display = "block";
+
+        select.removeAttribute("name");
         input.setAttribute("name", "category");
     } else {
         input.style.display = "none";
-        input.setAttribute("name", "custom_category");
+
+        select.setAttribute("name", "custom_category");
+        input.removeAttribute("name");
     }
 }
 </script>
