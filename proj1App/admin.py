@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Profile
+from .models import Profile, Post, Community, CommunityMembership, DiscussionPod
 
-# Register your models here; able to see database in django admin
-#python manage.py runserver
-#go to website and login
 admin.site.register(Profile)
+admin.site.register(Post)
+admin.site.register(Community)
+admin.site.register(CommunityMembership)
+admin.site.register(DiscussionPod)

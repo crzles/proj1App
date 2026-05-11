@@ -7,6 +7,7 @@
 
 {% block content %}
 
+<!--comment ex-->
 <!-- Navbar -->
 <nav class="en-navbar">
     <a href="/" class="en-brand">
@@ -80,8 +81,23 @@
         <div class="post-card">
             <div class="d-flex justify-content-between align-items-start">
                 <span class="post-user">@{{ post.user.username }}</span>
-                <span class="post-meta">{{ post.created_at|timesince }} ago &middot; <span class="post-category">{{ post.category }}</span></span>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="post-meta">{{ post.created_at|timesince }} ago &middot; <span class="post-category">{{ post.category }}</span></span>
+
+                    {% if post.user == request.user %}
+                    <form method="POST" action="/posts/delete/{{ post.id }}/">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit" class="post-delete-btn" onclick="return confirm('Delete this post?')">
+                            <svg width="13" height="13" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 6h12M8 6V4h4v2M7 6v10h6V6H7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </form>
+                    {% endif %}
+                </div>
             </div>
+
             {% if post.title %}
                 <div class="post-title">{{ post.title }}</div>
             {% endif %}
