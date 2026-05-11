@@ -48,12 +48,12 @@ def login(request):
     return render(request, 'proj1App/login.html')
  
  
-@login_required
+@login_required(login_url='/login/')
 def home(request):
     posts = Post.objects.all().select_related('user')
     return render(request, 'proj1App/home.html', {'posts': posts})
 
-@login_required
+@login_required(login_url='/login/')
 def search(request):
     query = request.GET.get('q', '')
     results = []
@@ -65,7 +65,7 @@ def search(request):
         ).select_related('user')
     return render(request, 'proj1App/search.html', {'results': results, 'query': query})
 
-@login_required
+@login_required(login_url='/login/')
 def create_post(request):
     if request.method == 'POST':
         title    = request.POST.get('title', '')
@@ -96,7 +96,7 @@ def create_post(request):
  
     return redirect('/home/')
 
-@login_required
+@login_required(login_url='/login/')
 def delete_post(request, post_id):
     post = get_object_or_404(Post, id=post_id, user=request.user)
     next_url = request.POST.get('next', '/home/')
@@ -106,7 +106,7 @@ def delete_post(request, post_id):
     return redirect('/home/')
 
 
-@login_required
+@login_required(login_url='/login/')
 def communities(request, community_slug=None):
     # Communities the logged-in user has joined
     user_communities = request.user.communities.filter(parent=None).prefetch_related('subcommunities')
@@ -154,13 +154,13 @@ def communities(request, community_slug=None):
         'discussion_pods':      discussion_pods,
     })
 
-@login_required
+@login_required(login_url='/login/')
 def join_community(request, community_slug):
     community = get_object_or_404(Community, slug=community_slug)
     CommunityMembership.objects.get_or_create(user=request.user, community=community)
     return redirect(request.POST.get('next', '/communities/'))
 
-@login_required
+@login_required(login_url='/login/')
 def leave_community(request, community_slug):
     community = get_object_or_404(Community, slug=community_slug)
     CommunityMembership.objects.filter(user=request.user, community=community).delete()
@@ -170,7 +170,7 @@ def logout(request):
     auth_logout(request)
     return redirect('login')
 
-@login_required
+@login_required(login_url='/login/')
 def profile(request):
 
     profile, created = Profile.objects.get_or_create(user=request.user)
@@ -193,3 +193,41 @@ def profile(request):
         'profile': profile,
         'recent_notes': recent_notes,
     })
+
+@login_required(login_url='/login/')
+def settings(request): 
+    profile = get_object_or_404(Profile, user=request.user)
+
+    if request.method == 'POST':
+
+        # handling for the deleting account 
+        if request.POST.get('delete_account') == 'true': 
+            # added code so that it does not break 
+            user  = request.user
+            auth_logout(request)
+            user.delete()
+            # messages.success(request, 'Your account has been permanently deleted.')
+            return redirect('/login/')
+            # request.user.delete()
+            # return redirect('index') 
+        
+        # this handles the password change in settings
+        new_password = request.POST.get('new_password', '')
+        if new_password: 
+            request.user.set_password(new_password)
+            request.user.save()
+            messages.success(request, 'Password updated successfully.')
+            return redirect('login')  # log the user back in with new password
+
+        # this handles the username change
+        new_username = request.POST.get('username', '').strip()
+        if new_username and new_username != request.user.username:
+            if User.objects.filter(username=new_username).exists():
+                messages.error(request, 'That username is already taken.')
+            else:
+                request.user.username = new_username
+                request.user.save()
+                messages.success(request, 'Username updated.')
+
+
+    return render(request, 'proj1App/settings.html', {'profile': profile})

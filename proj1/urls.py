@@ -19,17 +19,42 @@ from django.urls import path
 from proj1App import views
 from django.conf import settings
 from django.conf.urls.static import static
+# added to find missing media 
+from django.views.static import serve
+from django.urls import re_path
 
 #a list, each path() is saying when the user visits this URL, call this funciton
 #path('URL', views.function, name='nickname') views is views.py
+# urlpatterns = [
+#     path('admin/', admin.site.urls),
+#     path('', include('proj1App.urls')),
+#     path('', views.index, name='index'),
+#     path('signup/', views.signup, name='signup'),
+#     path('login/', views.login, name='login'),
+#     path('home/', views.home, name='home'),
+#     path('search/', views.search, name='search'),
+#     path('logout/', views.logout, name='logout'),
+#     path('settings/', views.settings, name='settings'),
+#     path('posts/create/', views.create_post, name='create_post'),
+#     path('communities/', views.communities, name='communities'),
+#     path('communities/<slug:community_slug>/', views.communities, name='community_detail'),
+#     path('communities/<slug:community_slug>/join/', views.join_community, name='join_community'),
+#     path('communities/<slug:community_slug>/leave/', views.leave_community, name='leave_community'),
+#     path('posts/delete/<int:post_id>/', views.delete_post, name='delete_post'),
+#     path('profile/', views.profile, name='profile'),
+# ]
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
+
+    path('', views.index, name='index'),
+    path('signup/', views.signup, name='signup'), # login goes after
     path('home/', views.home, name='home'),
     path('search/', views.search, name='search'),
     path('logout/', views.logout, name='logout'),
+    path('settings/', views.settings, name='settings'),
     path('posts/create/', views.create_post, name='create_post'),
     path('communities/', views.communities, name='communities'),
     path('communities/<slug:community_slug>/', views.communities, name='community_detail'),
@@ -39,4 +64,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
 ]   
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

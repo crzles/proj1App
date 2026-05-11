@@ -2,8 +2,11 @@
 {% load static %}
 
 {% block title %}Home — EduNotes{% endblock %}
-
-{% block extra_css %}<link rel="stylesheet" href="{% static 'proj1App/css/home.css' %}">{% endblock %}
+<!-- Importing for home.css and now also communities.css -->
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'proj1App/css/home.css' %}">
+<link rel="stylesheet" href="{% static 'proj1App/css/communities.css' %}">
+{% endblock %}
 
 {% block content %}
 
@@ -31,6 +34,7 @@
     </form>
     <a href="/logout/" class="en-navbar-logout">Log Out</a>
 </nav>
+<div class="cm-layout">
 
 <!-- sidebarr -->
 <div id="sidebar">
@@ -67,8 +71,8 @@
 </div>
 
 
-<!--main-->
-<div id="main-content">
+<!--main    is changed from this line - <div id="main-content"> -->
+<main class="cm-main" style="margin-left:40px; margin-right:300px;">
     <div class="feed-container">
     <!--button-->
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -126,6 +130,37 @@
 
         {% endfor %}
     </div>
+</main>
+
+<!-- Below is the reminder panel from profile.html -->
+
+<aside class="cm-pods-panel">
+    <h2 class="cm-pods-title">Reminders</h2>
+    <p class="cm-pods-sub">Upcoming tasks and study reminders</p>
+
+    <div class="cm-pods-grid">
+        <div class="cm-pod">
+            <div class="cm-pod-header">
+                <span class="cm-pod-name">Reminder 1</span>
+                <span class="cm-pod-count">Soon</span>
+            </div>
+            <div class="cm-pod-avatars">
+                <span class="cm-pod-empty">No reminders yet</span>
+            </div>
+        </div>
+
+        <div class="cm-pod">
+            <div class="cm-pod-header">
+                <span class="cm-pod-name">Reminder 2</span>
+                <span class="cm-pod-count">Later</span>
+            </div>
+            <div class="cm-pod-avatars">
+                <span class="cm-pod-empty">Add reminder functionality later</span>
+            </div>
+        </div>
+    </div>
+</aside>
+
 </div>
 
 <!-- post pop-up form -->
@@ -142,7 +177,8 @@
                 <form method="POST" action="/posts/create/" enctype="multipart/form-data">
 
                     {% csrf_token %}
- 
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <!-- added the line above for next hidden field -->
                     <div class="en-modal-field">
                         <label class="en-modal-label">Category</label>
                         <select name="category" class="en-modal-input">
