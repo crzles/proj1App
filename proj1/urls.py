@@ -31,6 +31,7 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('search/', views.search, name='search'),
     path('logout/', views.logout, name='logout'),
+    path('settings/', views.settings, name='settings'),
     path('posts/create/', views.create_post, name='create_post'),
     path('communities/', views.communities, name='communities'),
     path('communities/<slug:community_slug>/', views.communities, name='community_detail'),

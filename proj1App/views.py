@@ -193,3 +193,33 @@ def profile(request):
         'profile': profile,
         'recent_notes': recent_notes,
     })
+
+@login_required
+def settings(request): 
+    profile = get_object_or_404(Profile, user=request)
+
+    if request.method == 'POST':
+        # this handles the password change in settings
+        new_password = request.POST.get('new_password', '')
+        if new_password: 
+            request.user.set_password(new_password)
+            request.user.save()
+            messages.success(request, 'Password updated successfully.')
+            return redirect('login')  # log the user back in with new password
+
+        # this handles the username change
+        new_username = request.POST.get('username', '').strip()
+        if new_username and new_username != request.user.username:
+            if User.objects.filter(username=new_username).exists():
+                messages.error(request, 'That username is already taken.')
+            else:
+                request.user.username = new_username
+                request.user.save()
+                messages.success(request, 'Username updated.')
+
+        # handling for the deleting account 
+        if request.POST.get('delete_account') == 'true': 
+            request.user.delete()
+            return redirect('index')
+
+    return render(request, 'proj1App/settings.html', {'profile': profile})
